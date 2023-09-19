@@ -9,7 +9,7 @@ public class Reserva {
     private Integer numeroQuarto;
     private Date checkIn;
     private Date checkOut;
-    
+
     private static SimpleDateFormat converteData = new SimpleDateFormat("dd/MM/yyyy");
 
     // Construtores
@@ -50,16 +50,26 @@ public class Reserva {
         return TimeUnit.DAYS.convert(diferenca, TimeUnit.MILLISECONDS);
     }
 
-    public void dadasAtualizadas(Date chekIn, Date chekOut) {
+    // Nessa solução a lógica de check-In e Check-Out estão na classe certa, porém o método ainda está errado. 
+    // Tiramos o void, pois o método tem que retornar uma String. 
+    public String dadasAtualizadas(Date chekIn, Date chekOut) {
+        // Se a data de check-in for anterior à data atual ou se a data de check-out for anterior à data atual vai exibir mensagem de erro
+        Date now = new Date();
+        if (checkIn.before(now) || checkOut.before(now)) {
+            return "As datas de reserva para atualizações devem ser datas futuras";
+        }
+        if (!checkOut.after(checkIn)) {
+            return "a data de check-out deve ser posterior à data de check-in";
+        }
         this.checkIn = chekIn;
         this.checkOut = chekOut;
+        return null;
     }
 
     @Override
     public String toString() {
-        return "Quarto " + numeroQuarto + ", check-In: " + converteData.format(checkIn) + ", chek-Out:" 
-                + converteData.format(checkOut)+ ", "+ duracao() + " Noites";
+        return "Quarto " + numeroQuarto + ", check-In: " + converteData.format(checkIn) + ", chek-Out:"
+                + converteData.format(checkOut) + ", " + duracao() + " Noites";
     }
-    
-    
+
 }

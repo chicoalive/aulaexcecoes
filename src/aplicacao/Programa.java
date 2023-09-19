@@ -37,16 +37,13 @@ public class Programa {
             checkIn = convertStringHoras.parse(teclado.next());
             System.out.print("Data do check-Out - Digite a data no formato dd/MM/yyyy: ");
             checkOut = convertStringHoras.parse(teclado.next());
-
-            // Se a data de check-in for anterior à data atual ou se a data de check-out for anterior à data atual vai exibir mensagem de erro
-            Date now = new Date();
-            if (checkIn.before(now) || checkOut.before(now)) {
-                System.out.println("Erro na reserva: As datas de reserva para atualizações devem ser datas futuras");
-            } else if (!checkOut.after(checkIn)) {
-                System.out.println("Erro na reserva: a data de check-out deve ser posterior à data de check-in");
+            // O reserva.dadasAtualizadas retornara uma string e será esse String que vai identificar se houve erro ou não. 
+            String erro = reserva.dadasAtualizadas(checkIn, checkOut);
+            // Testando para ver se venho String com erro
+            if (erro != null) {
+                System.out.println("Erro na reserva: " + erro);
             } else {
-            reserva.dadasAtualizadas(checkIn, checkOut);
-            System.out.println("Reserva: " + reserva);
+                System.out.println("Reserva: " + reserva);
             }
         }
 
